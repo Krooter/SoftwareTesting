@@ -49,7 +49,6 @@ namespace LAB5.Pages
             {
                 webDriver.Close();
                 return true;
-                
             }
 
             webDriver.Close();
