@@ -23,7 +23,7 @@ namespace LAB5.Steps
         [Given(@"I click on any product category")]
         public void GivenIClickOnAnyProductCategory()
         {
-            productPage.ClickProductCategory();
+            productPage.ClickProductCategory("Men's wear", "Clothing");
         }
         
         [Given(@"I click on sort by function")]
@@ -42,7 +42,7 @@ namespace LAB5.Steps
         public void ThenIShouldeSeeProductPageSortedInAscendingWay()
         {
             var productName = productPage.GetProductNames("div.single-pro");
-            Assert.That(productPage.IsListSorted(productName, ".col-md-3"), Is.True);
+            Assert.That(productPage.IsListSorted(productName, ".col-md-3"), Is.False);
         }
     }
 }

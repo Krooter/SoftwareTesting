@@ -18,13 +18,19 @@ namespace LAB5.Pages
             this.webDriver = webDriver;
         }
 
-        public IWebElement LinkProductGender => webDriver.FindElement(By.PartialLinkText("Men's wear"));
-        public IWebElement LinkProductCategory => webDriver.FindElement(By.LinkText("Clothing"));
-
-        public void ClickProductCategory()
+        public IWebElement LinkProductGender(string productGender)
         {
-            LinkProductGender.Click();
-            LinkProductCategory.Click();
+            return webDriver.FindElement(By.PartialLinkText(productGender));
+        }
+        public IWebElement LinkProductCategory(string productCategory)
+        {
+            return webDriver.FindElement(By.LinkText(productCategory));
+        }
+
+        public void ClickProductCategory(string productSpecGender, string productSpecCategory)
+        {
+            LinkProductGender(productSpecGender).Click();
+            LinkProductCategory(productSpecCategory).Click();
         }
 
         public void SelectElement(string elementId)
