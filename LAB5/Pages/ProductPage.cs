@@ -1,6 +1,8 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace LAB5.Pages
@@ -22,37 +24,67 @@ namespace LAB5.Pages
         public void ClickProductCategory()
         {
             LinkProductGender.Click();
-            Thread.Sleep(3000);
             LinkProductCategory.Click();
-            Thread.Sleep(3000);
         }
 
-        public void SelectElement()
+        public void SelectElement(string elementId)
         {
-            select = new SelectElement(webDriver.FindElement(By.Id("country1")));
-            Thread.Sleep(3000);
+            select = new SelectElement(webDriver.FindElement(By.Id(elementId)));
         }
 
-        public void Sort()
+        public void SortAsc(string textSelector)
         {
-            select.SelectByText("Name(A - Z)");
-            Thread.Sleep(3000);
+            select.SelectByText(textSelector);
         }
 
-        public bool IsSortedAsc()
+        //public bool IsSortedAsc()
+        //{
+        //    var firstItemFromPage = webDriver.FindElement(By.ClassName("product-men"));
+        //    Console.WriteLine("First product from page: " + firstItemFromPage);
+        //    var item = webDriver.FindElement(By.LinkText("Analog Watch"));
+        //    Console.WriteLine("Product that should be first: " + item);
+        //    if (firstItemFromPage == item)
+        //    {
+        //        webDriver.Close();
+        //        return true;
+        //    }
+
+        //    webDriver.Close();
+        //    return false;
+        //}
+
+        public List<string> GetProductNames(string element)
         {
-            var firstItemFromPage = webDriver.FindElement(By.ClassName("product-men"));
-            Console.WriteLine("First product from page: " + firstItemFromPage);
-            var item = webDriver.FindElement(By.LinkText("Analog Watch"));
-            Console.WriteLine("Product that should be first: " + item);
-            if (firstItemFromPage != item)
+            List<string> names = new List<string>();
+            IReadOnlyList<IWebElement> products = webDriver.FindElements(By.CssSelector(element));
+
+            foreach (IWebElement product in products)
             {
-                webDriver.Close();
-                return true;
+                names.Add(product.Text);
+            }
+
+            return names;
+        }
+
+        public bool IsListSorted(List<string> list, string contains)
+        {
+            string last = list.Find(u => u.Contains(contains));
+            for (int i = 1; i < list.Count; i++)
+            {
+                string current = list.Find(u => u.Contains($"{i}"));
+                Console.WriteLine(current);
+                if (last.CompareTo(current) > 0)
+                {
+                    webDriver.Close();
+                    return true;
+                }
+
+                last = current;
             }
 
             webDriver.Close();
             return false;
         }
+
     }
 }

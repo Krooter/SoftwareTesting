@@ -26,22 +26,23 @@ namespace LAB5.Steps
             productPage.ClickProductCategory();
         }
         
-        [Given(@"I enter click on sort by function")]
+        [Given(@"I click on sort by function")]
         public void GivenIEnterClickOnSortByFunction()
         {
-            productPage.SelectElement();
+            productPage.SelectElement("country1");
         }
         
         [Given(@"I select ascending sort Name\(A-Z\)")]
         public void GivenISelectAscendingSortNameA_Z()
         {
-            productPage.Sort();
+            productPage.SortAsc("Name(A - Z)");
         }
         
         [Then(@"I should see product page sorted in ascending way")]
         public void ThenIShouldeSeeProductPageSortedInAscendingWay()
         {
-            Assert.That(productPage.IsSortedAsc(), Is.True);
+            var productName = productPage.GetProductNames("div.single-pro");
+            Assert.That(productPage.IsListSorted(productName, ".col-md-3"), Is.True);
         }
     }
 }
